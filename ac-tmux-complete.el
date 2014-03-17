@@ -100,8 +100,12 @@
     filtered))
 
 ;;;###autoload
-(defun ac-tmux-complete-setup ()
-  (interactive))
+(defun ac-tmux-complete-ac-setup ()
+  "Add `ac-source-tmux-complete' to `ac-sources' and enable `auto-complete' mode"
+  (interactive)
+  (add-to-list 'ac-sources 'ac-source-tmux-complete)
+  (unless auto-complete-mode
+    (auto-complete-mode +1)))
 
 (ac-define-source tmux-complete
   `((candidates . ac-tmux-complete--candidates)
