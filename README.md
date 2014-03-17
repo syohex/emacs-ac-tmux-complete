@@ -6,4 +6,4 @@ This is port of [tmux-complete.vim](https://github.com/wellle/tmux-complete.vim)
 
 ## Screenshot
 
-![ac-tmux-complete]()
+![ac-tmux-complete](image/ac-tmux-complete.png)
