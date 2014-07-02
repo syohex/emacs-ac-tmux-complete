@@ -32,16 +32,15 @@
 
 (defun ac-tmux-complete--collect-panes ()
   (with-temp-buffer
-    (let ((cmd "tmux list-panes -F '#P'"))
-      (unless (zerop (call-process-shell-command cmd nil t))
-        (error "Faild: '%s'" cmd))
-      (goto-char (point-min))
-      (let (panes)
-        (while (not (eobp))
-          (push (buffer-substring-no-properties
-                 (line-beginning-position) (line-end-position)) panes)
-          (forward-line 1))
-        (reverse panes)))))
+    (unless (zerop (call-process "tmux" nil t nil "list-panes" "-F" "#P"))
+      (error "Faild: 'tmux list-panes -F #P"))
+    (goto-char (point-min))
+    (let (panes)
+      (while (not (eobp))
+        (push (buffer-substring-no-properties
+               (line-beginning-position) (line-end-position)) panes)
+        (forward-line 1))
+      (reverse panes))))
 
 (defun ac-tmux-complete--trim (str)
   (let ((left-trimed (if (string-match "\\`[ \t\n\r]+" str)
@@ -73,13 +72,13 @@
 
 (defun ac-tmux-complete--capture-pane (pane-id)
   (with-temp-buffer
-    (let ((cmd (concat "tmux capture-pane -J -p -t " pane-id)))
-      (unless (zerop (call-process-shell-command cmd nil t))
-        (error "Failed: '%s'" cmd))
-      (let* ((candidates (ac-tmux-complete--parse-capture-output))
-             (sorted (sort candidates 'string<)))
-        (cl-delete-duplicates sorted :test 'equal)
-        (ac-tmux-complete--remove-space-candidates sorted)))))
+    (unless (zerop (call-process "tmux" nil t nil
+                                 "capture-pane" "-J" "-p" "-t" pane-id))
+      (error "Failed: 'tmux capture-pane -J -p -t %s'" pane-id))
+    (let* ((candidates (ac-tmux-complete--parse-capture-output))
+           (sorted (sort candidates 'string<)))
+      (cl-delete-duplicates sorted :test 'equal)
+      (ac-tmux-complete--remove-space-candidates sorted))))
 
 (defun ac-tmux-complete--collect-candidates (panes)
   (cl-loop for pane in panes
