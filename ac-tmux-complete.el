@@ -28,7 +28,7 @@
 (require 'auto-complete)
 
 (defsubst ac-tmux-complete--in-tmux-p ()
-  (getenv "TMUX_PANE"))
+  (or (getenv "TMUX") (getenv "TMUX_PANE")))
 
 (defun ac-tmux-complete--collect-panes ()
   (with-temp-buffer
