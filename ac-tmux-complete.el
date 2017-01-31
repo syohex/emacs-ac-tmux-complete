@@ -1,11 +1,11 @@
-;;; ac-tmux-complete.el --- auto complete with content of tmux panes
+;;; ac-tmux-complete.el --- auto complete with content of tmux panes -*- lexical-binding: t -*-
 
-;; Copyright (C) 2014 by Syohei YOSHIDA
+;; Copyright (C) 2017 by Syohei YOSHIDA
 
 ;; Author: Syohei YOSHIDA <syohex@gmail.com>
 ;; URL: https://github.com/syohex/emacs-ac-tmux-complete
 ;; Version: 0.01
-;; Package-Requires: ((auto-complete "1.4") (cl-lib "0.5"))
+;; Package-Requires: ((emacs "24.3") (auto-complete "1.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
